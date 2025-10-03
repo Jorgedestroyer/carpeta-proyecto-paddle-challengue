@@ -1,0 +1,346 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Paddle Challenge - Plataforma de Paddle{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 100px 0;
+    margin: -30px -15px 50px -15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('{% static "images/game/paddle-intro.png" %}') center/cover;
+    opacity: 0.15;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.game-feature {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 5px solid #D4AF37;
+}
+
+.game-feature:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.feature-image {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.stats-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: scale(1.05);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: #D4AF37;
+    margin-bottom: 10px;
+}
+
+.btn-paddle {
+    background: linear-gradient(45deg, #D4AF37, #F4E99B);
+    border: none;
+    color: #333;
+    font-weight: bold;
+    padding: 12px 30px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-paddle:hover {
+    background: linear-gradient(45deg, #F4E99B, #D4AF37);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(212,175,55,0.3);
+    color: #333;
+}
+
+.how-to-play {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    padding: 60px 0;
+    margin: 50px -15px;
+}
+
+.step-number {
+    background: white;
+    color: #f5576c;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 0 auto 20px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container hero-content">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="display-3 mb-4 fw-bold">
+                    🏓 Paddle Challenge
+                </h1>
+                <p class="lead mb-4 fs-4">
+                    La plataforma definitiva para jugadores de paddle. Juega, compite, aprende y conecta con la comunidad más apasionada del paddle.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'blog:lista_posts' %}" class="btn btn-paddle btn-lg">
+                            <i class="fas fa-play me-2"></i>Continuar Jugando
+                        </a>
+                    {% else %}
+                        <a href="{% url 'users:registro' %}" class="btn btn-paddle btn-lg">
+                            <i class="fas fa-user-plus me-2"></i>Únete Ahora
+                        </a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-4 text-center">
+                <img src="{% static 'images/game/gameplay.png' %}" alt="Paddle Game" class="img-fluid rounded-3 shadow-lg" style="max-height: 250px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Estadísticas Principales -->
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-md-4 mb-3">
+            <div class="stats-card">
+                <i class="fas fa-users fa-3x mb-3"></i>
+                <h3>{{ total_usuarios }}</h3>
+                <p class="mb-0">Jugadores Activos</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="stats-card">
+                <i class="fas fa-gamepad fa-3x mb-3"></i>
+                <h3>{{ total_partidas }}</h3>
+                <p class="mb-0">Partidas Jugadas</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="stats-card">
+                <i class="fas fa-trophy fa-3x mb-3"></i>
+                <h3>{{ total_posts }}</h3>
+                <p class="mb-0">Estrategias Compartidas</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Características del Juego -->
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">¿Qué es Paddle Challenge?</h2>
+            <p class="lead text-muted">Descubre todas las funcionalidades de nuestra plataforma</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="game-feature">
+                <div class="d-flex align-items-start">
+                    <div class="me-4 text-center">
+                        <i class="fas fa-user-plus feature-icon mb-3"></i>
+                        <img src="{% static 'images/game/community.png' %}" alt="Registro de Jugador" style="width: 180px; height: 120px; object-fit: cover; border-radius: 10px; display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-3">Registro de Jugador</h4>
+                        <p class="text-muted mb-3">
+                            Crea tu cuenta gratuita para unirte a la plataforma, configurar tu perfil de jugador y empezar a competir en Paddle Challenge.
+                        </p>
+                        <a href="{% url 'users:registro' %}" class="btn btn-paddle">
+                            <i class="fas fa-user-plus me-2"></i>Registrarse
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="game-feature">
+                <div class="d-flex align-items-start">
+                    <div class="me-4 text-center">
+                        <i class="fas fa-chart-line feature-icon mb-3"></i>
+                        <img src="{% static 'images/game/scoring.png' %}" alt="Puntuación" style="width: 180px; height: 120px; object-fit: cover; border-radius: 10px; display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-3">Sistema de Puntuación</h4>
+                        <p class="text-muted mb-3">
+                            Lleva registro de tus partidas, estadísticas y progreso. Nuestro sistema de 
+                            puntuación ELO te permite competir con jugadores de tu nivel.
+                        </p>
+                        <a href="{% if user.is_authenticated %}{% url 'users:perfil' user.username %}{% else %}{% url 'users:registro' %}{% endif %}" class="btn btn-paddle">
+                            <i class="fas fa-chart-bar me-2"></i>Ver Estadísticas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="game-feature">
+                <div class="d-flex align-items-start">
+                    <div class="me-4 text-center">
+                        <i class="fas fa-trophy feature-icon mb-3"></i>
+                        <img src="{% static 'images/game/tournament.png' %}" alt="Torneos" style="width: 180px; height: 120px; object-fit: cover; border-radius: 10px; display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-3">Torneos y Competencias</h4>
+                        <p class="text-muted mb-3">
+                            Participa en torneos regulares, desafía a otros jugadores y escala en el ranking. 
+                            Gana logros y reconocimientos por tus victorias.
+                        </p>
+                        <button class="btn btn-paddle" disabled>
+                            <i class="fas fa-calendar me-2"></i>Próximamente
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="game-feature">
+                <div class="d-flex align-items-start">
+                    <div class="me-4 text-center">
+                        <i class="fas fa-sliders-h feature-icon mb-3"></i>
+                        <img src="{% static 'images/game/blog.png' %}" alt="Configuración del Juego" style="width: 180px; height: 120px; object-fit: cover; border-radius: 10px; display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                    </div>
+                    <div>
+                        <h4 class="fw-bold mb-3">Configuración del Juego</h4>
+                        <p class="text-muted mb-3">
+                            Explora cada pantalla del juego: menú principal, niveles, avance, registro y ajustes. Visualiza cómo funciona antes de jugar.
+                        </p>
+                        <a href="{% url 'game_config' %}" class="btn btn-paddle">
+                            <i class="fas fa-cogs me-2"></i>Ver Configuración
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cómo Empezar -->
+<div class="how-to-play">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3">¿Cómo Empezar?</h2>
+                <p class="lead">Únete a la comunidad en 3 simples pasos</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 text-center mb-4">
+                <div class="step-number">1</div>
+                <h4 class="fw-bold mb-3">Regístrate</h4>
+                <p>Crea tu cuenta gratuita y configura tu perfil de jugador con tu nivel y experiencia.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="step-number">2</div>
+                <h4 class="fw-bold mb-3">Conecta</h4>
+                <p>Encuentra otros jugadores, únete a grupos y comienza a interactuar con la comunidad.</p>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="step-number">3</div>
+                <h4 class="fw-bold mb-3">Juega</h4>
+                <p>Registra tus partidas, comparte estrategias y mejora tu ranking compitiendo con otros.</p>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            {% if not user.is_authenticated %}
+                <a href="{% url 'users:registro' %}" class="btn btn-paddle btn-lg">
+                    <i class="fas fa-rocket me-2"></i>¡Empezar Ahora!
+                </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Top Players si hay usuarios -->
+{% if top_players %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header text-center py-4" style="background: linear-gradient(90deg, #D4AF37, #CD853F); color: white;">
+                    <h3 class="mb-0">
+                        <i class="fas fa-crown me-2"></i>🏆 Mejores Jugadores
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for profile in top_players %}
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <div class="d-flex align-items-center p-3 rounded border" style="background: linear-gradient(45deg, #f8f9fa, #ffffff);">
+                                    <div class="me-3">
+                                        <span class="badge bg-primary fs-6">#{{ forloop.counter }}</span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">{{ profile.user.username }}</h6>
+                                        <small class="text-muted">{{ profile.puntuacion_total }} puntos</small>
+                                    </div>
+                                    {% if forloop.counter == 1 %}
+                                        <i class="fas fa-crown text-warning fa-lg"></i>
+                                    {% elif forloop.counter == 2 %}
+                                        <i class="fas fa-medal text-secondary fa-lg"></i>
+                                    {% elif forloop.counter == 3 %}
+                                        <i class="fas fa-award text-warning fa-lg"></i>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

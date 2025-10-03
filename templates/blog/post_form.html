@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{% if object %}Editar Post{% else %}Nuevo Post{% endif %} - Paddle Challenge{% endblock %}
+{% block content %}
+<div class="container mt-4" style="max-width:900px;">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 mb-0">{% if object %}<i class="fas fa-edit me-2"></i>Editar Post{% else %}<i class="fas fa-plus me-2"></i>Nuevo Post{% endif %}</h1>
+    <div>
+      <a href="{% url 'blog:lista_posts' %}" class="btn btn-outline-secondary btn-sm"><i class="fas fa-arrow-left me-1"></i>Volver</a>
+      {% if object %}
+        <a href="{% url 'blog:eliminar_post' object.slug %}" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash me-1"></i>Eliminar</a>
+      {% endif %}
+    </div>
+  </div>
+  <form method="post" enctype="multipart/form-data" class="card shadow-sm border-0">
+    <div class="card-body">
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+      {% endif %}
+      <div class="mb-3">{{ form.titulo.label_tag }} {{ form.titulo }}</div>
+      <div class="mb-3">{{ form.contenido.label_tag }} {{ form.contenido }}</div>
+      <div class="row">
+        <div class="col-md-4 mb-3">{{ form.categoria.label_tag }} {{ form.categoria }}</div>
+        <div class="col-md-4 mb-3">{{ form.estado.label_tag }} {{ form.estado }}</div>
+        <div class="col-md-4 mb-3">{{ form.imagen_destacada.label_tag }} {{ form.imagen_destacada }}</div>
+      </div>
+    </div>
+    <div class="card-footer bg-light text-end">
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

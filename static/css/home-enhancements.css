@@ -1,0 +1,25 @@
+/* Estilos adicionales para el nuevo diseño de inicio */
+
+.placeholder-image {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+}
+
+.feature-placeholder {
+    background: linear-gradient(45deg, #D4AF37, #F4E99B);
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}

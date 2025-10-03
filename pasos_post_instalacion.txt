@@ -1,0 +1,30 @@
+# PASOS INMEDIATOS DESPUÉS DE INSTALAR POSTGRESQL 18
+
+# 1. ABRIR SQL SHELL (psql)
+#    - Buscar en menú inicio: "SQL Shell (psql)"
+#    - Se abrirá una ventana negra
+
+# 2. PRESIONAR ENTER PARA TODOS ESTOS VALORES:
+#    Server [localhost]: [PRESIONAR ENTER]
+#    Database [postgres]: [PRESIONAR ENTER]  
+#    Port [5432]: [PRESIONAR ENTER]
+#    Username [postgres]: [PRESIONAR ENTER]
+
+# 3. INTRODUCIR LA CONTRASEÑA QUE PUSISTE DURANTE LA INSTALACIÓN
+#    Password for user postgres: [TU CONTRASEÑA AQUÍ]
+
+# 4. EJECUTAR ESTOS COMANDOS UNO POR UNO:
+CREATE DATABASE paddle_challenge_db;
+CREATE USER paddle_user WITH PASSWORD 'paddle123';
+GRANT ALL PRIVILEGES ON DATABASE paddle_challenge_db TO paddle_user;
+ALTER USER paddle_user CREATEDB;
+
+# 5. VERIFICAR QUE TODO ESTÁ BIEN:
+\l
+# Deberías ver "paddle_challenge_db" en la lista
+
+# 6. SALIR:
+\q
+
+# 7. VERIFICAR CON NUESTRO SCRIPT:
+# python check_postgresql18.py

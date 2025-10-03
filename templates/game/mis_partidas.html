@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Mis Partidas - Paddle Challenge{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4"><i class="fas fa-history me-2"></i>Mis Partidas</h1>
+<div class="mb-3">
+  <a href="{% url 'game:registrar_partida' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus me-1"></i>Registrar Partida Manual</a>
+  <a href="{% url 'game:feedback' %}" class="btn btn-outline-secondary btn-sm"><i class="fas fa-comment-dots me-1"></i>Feedback</a>
+</div>
+{% if stats %}
+<div class="row g-2 mb-3">
+  <div class="col-6 col-md-3">
+  <div class="card small-card stat-card"><div class="card-body py-2 text-center"><small class="text-muted d-block">Partidas</small><strong>{{ stats.partidas_count }}</strong></div></div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card small-card stat-card"><div class="card-body py-2 text-center"><small class="text-muted d-block">Puntaje Total</small><strong>{{ stats.total }}</strong></div></div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card small-card stat-card"><div class="card-body py-2 text-center"><small class="text-muted d-block">Promedio</small><strong>{{ stats.promedio|floatformat:0 }}</strong></div></div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card small-card stat-card"><div class="card-body py-2 text-center"><small class="text-muted d-block">Nivel Máx</small><strong>{{ stats.nivel_max }}</strong></div></div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card small-card stat-card"><div class="card-body py-2 text-center"><small class="text-muted d-block">Combo Máx</small><strong>{{ stats.combo_max }}</strong></div></div>
+  </div>
+</div>
+{% endif %}
+{% if partidas %}
+  <div class="table-responsive">
+    <table class="table table-sm align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>#</th><th>Nivel</th><th>Puntaje</th><th>Duración (s)</th><th>Errores</th><th>Combo Máx</th><th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for p in partidas %}
+        <tr>
+          <td>{{ p.id }}</td>
+          <td>{{ p.nivel }}</td>
+          <td>{{ p.puntaje }}</td>
+          <td>{{ p.duracion_segundos }}</td>
+          <td>{{ p.errores }}</td>
+          <td>{{ p.combo_max }}</td>
+          <td>{{ p.creado|date:'d/m/Y H:i' }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <nav>
+    <ul class="pagination pagination-sm">
+      {% if partidas.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ partidas.previous_page_number }}">«</a></li>
+      {% endif %}
+      <li class="page-item active"><span class="page-link">{{ partidas.number }}</span></li>
+      {% if partidas.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{ partidas.next_page_number }}">»</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+{% else %}
+  <p class="text-muted">Aún no registras partidas.</p>
+{% endif %}
+{% endblock %}

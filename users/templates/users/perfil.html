@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <div class="profile-avatar mb-3">
+                        {% if profile.avatar %}
+                            <img src="{{ profile.avatar.url }}" class="rounded-circle img-fluid" alt="Avatar" style="width: 150px; height: 150px; object-fit: cover;">
+                        {% else %}
+                            <div class="avatar-placeholder rounded-circle mx-auto d-flex align-items-center justify-content-center" style="width: 150px; height: 150px; background: linear-gradient(135deg, #D4AF37, #CD853F); color: white;">
+                                <i class="fas fa-user fa-4x"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <h3 class="fw-bold">{{ profile_user.username }}</h3>
+                    <p class="text-muted">{{ profile_user.first_name }} {{ profile_user.last_name }}</p>
+                    
+                    <!-- Nivel con barra de progreso -->
+                    <div class="level-section mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="badge" style="background: linear-gradient(45deg, #D4AF37, #CD853F); font-size: 1rem;">
+                                Nivel {{ profile.nivel_juego }}
+                            </span>
+                            <small class="text-muted">{{ profile.puntuacion_total }} pts</small>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar" style="background: linear-gradient(90deg, #D4AF37, #CD853F); width: {% widthratio profile.puntuacion_total 1000 100 %}%"></div>
+                        </div>
+                    </div>
+
+                    {% if is_own_profile %}
+                        <a href="{% url 'users:editar_perfil' %}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-edit me-1"></i>Editar Perfil
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Estadísticas Rápidas -->
+            <div class="card border-0 shadow-sm mt-3">
+                <div class="card-header" style="background: linear-gradient(90deg, #2C3E50, #34495E); color: white;">
+                    <h6 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Estadísticas</h6>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row text-center">
+                        <div class="col-6 border-end">
+                            <h4 style="color: #D4AF37;">{{ profile.partidas_jugadas }}</h4>
+                            <small class="text-muted">Partidas</small>
+                        </div>
+                        <div class="col-6">
+                            <h4 style="color: #CD853F;">{{ profile.puntuacion_total }}</h4>
+                            <small class="text-muted">Puntos</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <!-- Información Personal -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header" style="background: linear-gradient(90deg, #D4AF37, #CD853F); color: white;">
+                    <h5 class="mb-0"><i class="fas fa-user me-2"></i>Información Personal</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-envelope me-2"></i>Email:</strong> {{ profile_user.email }}</p>
+                            <p><strong><i class="fas fa-globe me-2"></i>País:</strong> {{ profile.pais|default:"No especificado" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong><i class="fas fa-calendar me-2"></i>Miembro desde:</strong> {{ profile_user.date_joined|date:"d M Y" }}</p>
+                            <p><strong><i class="fas fa-signal me-2"></i>Nivel de juego:</strong> {{ profile.get_nivel_juego_display }}</p>
+                        </div>
+                    </div>
+                    {% if profile.sobre_mi %}
+                        <hr>
+                        <p><strong><i class="fas fa-quote-left me-2"></i>Sobre mí:</strong></p>
+                        <p class="text-muted">{{ profile.sobre_mi }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Logros -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header" style="background: linear-gradient(90deg, #B8860B, #D4AF37); color: white;">
+                    <h5 class="mb-0">
+                        <i class="fas fa-trophy me-2"></i>🏆 Logros Desbloqueados 
+                        <span class="badge bg-light text-dark ms-2">{{ user_achievements.count }}</span>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    {% if user_achievements %}
+                        <div class="row">
+                            {% for achievement in user_achievements %}
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="achievement-badge text-center p-3 rounded" 
+                                         style="background: linear-gradient(135deg, #F5F5DC, #FFFACD); border: 2px solid #D4AF37; transition: transform 0.3s ease;">
+                                        <div class="achievement-icon mb-2">
+                                            <i class="fas fa-medal fa-2x" style="color: #D4AF37;"></i>
+                                        </div>
+                                        <h6 class="fw-bold">{{ achievement.logro.nombre }}</h6>
+                                        <p class="small text-muted mb-2">{{ achievement.logro.descripcion }}</p>
+                                        <small class="badge bg-success">
+                                            <i class="fas fa-calendar me-1"></i>{{ achievement.fecha_obtenido|date:"d M Y" }}
+                                        </small>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-trophy fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">
+                                {% if is_own_profile %}
+                                    ¡Aún no has desbloqueado logros! Juega más partidas para conseguir tus primeros logros.
+                                {% else %}
+                                    {{ profile_user.username }} aún no ha desbloqueado logros.
+                                {% endif %}
+                            </p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.achievement-badge:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.level-section .progress {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.level-section .progress-bar {
+    border-radius: 10px;
+}
+
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+}
+
+.profile-avatar img, .avatar-placeholder {
+    border: 4px solid #D4AF37;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+</style>
+{% endblock %}

@@ -1,0 +1,429 @@
+/* Paddle Challenge - Paleta de colores personalizada */
+:root {
+    --primary-gold: #DAA520;
+    --secondary-gold: #B8860B;
+    --dark-gold: #996515;
+    --light-gold: #F4E4BC;
+    --cinnamon: #D2691E;
+    --dark-cinnamon: #A0522D;
+    --light-cinnamon: #DEB887;
+    --charcoal: #2C2C2C;
+    --dark-gray: #404040;
+    --medium-gray: #6C6C6C;
+    --light-gray: #E8E8E8;
+    --off-white: #F8F8F8;
+    --black: #1A1A1A;
+}
+
+/* Colores de Bootstrap personalizados */
+.bg-primary {
+    background-color: var(--primary-gold) !important;
+}
+
+.btn-primary {
+    background-color: var(--primary-gold);
+    border-color: var(--primary-gold);
+    color: var(--black);
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-gold);
+    border-color: var(--secondary-gold);
+    color: var(--black);
+}
+
+.btn-outline-primary {
+    color: var(--primary-gold);
+    border-color: var(--primary-gold);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-gold);
+    border-color: var(--primary-gold);
+    color: var(--black);
+}
+
+.text-primary {
+    color: var(--primary-gold) !important;
+}
+
+.text-secondary {
+    color: var(--cinnamon) !important;
+}
+
+.bg-success {
+    background-color: var(--cinnamon) !important;
+}
+
+.btn-success {
+    background-color: var(--cinnamon);
+    border-color: var(--cinnamon);
+    color: white;
+    font-weight: 600;
+}
+
+.btn-success:hover {
+    background-color: var(--dark-cinnamon);
+    border-color: var(--dark-cinnamon);
+    color: white;
+}
+
+.text-success {
+    color: var(--cinnamon) !important;
+}
+
+/* Navegación personalizada */
+.navbar-light {
+    background-color: var(--charcoal) !important;
+    border-bottom: 3px solid var(--primary-gold);
+}
+
+.navbar-light .navbar-brand {
+    color: var(--primary-gold) !important;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-light .navbar-brand:hover {
+    color: var(--light-gold) !important;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: var(--light-gray) !important;
+    font-weight: 500;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+    color: var(--primary-gold) !important;
+}
+
+.navbar-light .navbar-toggler {
+    border-color: var(--primary-gold);
+}
+
+.dropdown-menu {
+    background-color: var(--dark-gray);
+    border: 1px solid var(--primary-gold);
+}
+
+.dropdown-item {
+    color: var(--light-gray);
+}
+
+.dropdown-item:hover {
+    background-color: var(--primary-gold);
+    color: var(--black);
+}
+
+/* Hero section */
+.hero-section {
+    background: linear-gradient(135deg, var(--charcoal) 0%, var(--dark-gray) 100%);
+    color: var(--off-white);
+    border: 2px solid var(--primary-gold);
+    border-radius: 10px;
+}
+
+/* Cards personalizadas */
+.card {
+    border: 1px solid var(--light-gray);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Limitar las transiciones a propiedades que no causen reflow grande */
+    transition: box-shadow 0.3s ease;
+    position: relative;
+    backface-visibility: hidden; /* Evita parpadeos en algunos navegadores */
+    transform: translateZ(0); /* Crea una nueva capa para estabilidad */
+}
+
+/* Eliminar transform global en hover para evitar saltos/jitter */
+.card:hover {
+    box-shadow: 0 8px 15px rgba(218, 165, 32, 0.3);
+}
+
+.card-header {
+    font-weight: 600;
+    border-bottom: 2px solid var(--primary-gold);
+}
+
+.card-header.bg-primary {
+    background-color: var(--primary-gold) !important;
+    color: var(--black) !important;
+}
+
+.card-header.bg-success {
+    background-color: var(--cinnamon) !important;
+    color: white !important;
+}
+
+.card-header.bg-info {
+    background-color: var(--dark-cinnamon) !important;
+    color: white !important;
+}
+
+/* Botones personalizados */
+.btn-info {
+    background-color: var(--dark-cinnamon);
+    border-color: var(--dark-cinnamon);
+    color: white;
+}
+
+.btn-info:hover {
+    background-color: var(--cinnamon);
+    border-color: var(--cinnamon);
+}
+
+.btn-outline-dark {
+    color: var(--charcoal);
+    border-color: var(--charcoal);
+}
+
+.btn-outline-dark:hover {
+    background-color: var(--charcoal);
+    border-color: var(--charcoal);
+    color: var(--primary-gold);
+}
+
+.btn-warning {
+    background-color: var(--light-cinnamon);
+    border-color: var(--light-cinnamon);
+    color: var(--dark-gray);
+}
+
+.text-warning {
+    color: var(--light-cinnamon) !important;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--charcoal);
+    color: var(--light-gray);
+    border-top: 3px solid var(--primary-gold);
+}
+
+/* Formularios */
+.form-control:focus {
+    border-color: var(--primary-gold);
+    box-shadow: 0 0 0 0.2rem rgba(218, 165, 32, 0.25);
+}
+
+/* Alertas */
+.alert-success {
+    background-color: var(--light-cinnamon);
+    border-color: var(--cinnamon);
+    color: var(--dark-gray);
+}
+
+.alert-info {
+    background-color: var(--light-gold);
+    border-color: var(--primary-gold);
+    color: var(--dark-gray);
+}
+
+.alert-warning {
+    background-color: var(--light-cinnamon);
+    border-color: var(--dark-cinnamon);
+    color: var(--charcoal);
+}
+
+/* Paginación */
+.page-link {
+    color: var(--primary-gold);
+}
+
+.page-link:hover {
+    color: var(--secondary-gold);
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-gold);
+    border-color: var(--primary-gold);
+    color: var(--black);
+}
+
+/* Badges */
+.badge.bg-secondary {
+    background-color: var(--medium-gray) !important;
+}
+
+/* Elementos especiales */
+.gold-accent {
+    color: var(--primary-gold);
+}
+
+.cinnamon-accent {
+    color: var(--cinnamon);
+}
+
+.text-elegant {
+    color: var(--charcoal);
+    font-weight: 500;
+}
+
+/* Efectos hover especiales */
+.card-hover:hover {
+    border-color: var(--primary-gold);
+    box-shadow: 0 8px 25px rgba(218, 165, 32, 0.2);
+}
+
+/* Iconos con colores */
+.fa-gamepad {
+    color: var(--primary-gold);
+}
+
+.fa-trophy {
+    color: var(--secondary-gold);
+}
+
+.fa-users {
+    color: var(--cinnamon);
+}
+
+.fa-blog {
+    color: var(--dark-cinnamon);
+}
+
+/* ===== MEJORAS PROFESIONALES AGREGADAS ===== */
+
+/* Animaciones profesionales */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.stat-icon {
+    animation: pulse 2s infinite;
+}
+
+.animate-slide-up {
+    animation: slideInUp 0.6s ease-out;
+}
+
+.animate-fade-scale {
+    animation: fadeInScale 0.6s ease-out;
+}
+
+/* Cards mejoradas – redefinidas para evitar conflicto y jitter */
+/* Se mantiene sólo una definición de .card arriba. Para efectos de elevación
+ * se introduce una clase específica en lugar de aplicar a todas las tarjetas. */
+
+/* Clase opcional para tarjetas que sí necesitan elevación animada */
+.elevate-hover {
+    transition: box-shadow 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@media (pointer: fine) {
+    .elevate-hover:hover {
+        /* Eliminado transform para evitar que el puntero salga del área provocando 'parpadeo' */
+        box-shadow: 0 14px 28px rgba(0,0,0,0.18);
+    }
+}
+
+/* En pantallas táctiles se evita el transform para no generar reflujo accidental */
+@media (pointer: coarse) {
+    .elevate-hover:hover {
+        transform: none;
+    }
+}
+
+/* Respeta preferencias de usuarios que reducen movimiento */
+@media (prefers-reduced-motion: reduce) {
+    .elevate-hover,
+    .elevate-hover:hover,
+    .stat-icon { animation: none !important; transition: none !important; transform: none !important; }
+}
+
+/* Botones con efectos especiales */
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+/* Efectos de gradiente para textos */
+.gradient-text {
+    background: linear-gradient(45deg, var(--primary-gold), var(--cinnamon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: bold;
+}
+
+/* MODO OSCURO */
+.dark-mode {
+        --off-white: #181a1c;
+        --light-gray: #303438;
+        --charcoal: #141618;
+        --dark-gray: #1f2326;
+        --black: #0d0f10;
+        background-color: var(--off-white) !important;
+        color: #ddd;
+}
+
+.dark-mode .navbar-light { background-color: var(--black) !important; border-color: var(--primary-gold); }
+.dark-mode .footer { background-color: var(--black); }
+.dark-mode .card { background:#202427; border-color:#2e3236; }
+.dark-mode .card-header { background:#262b2f; border-color: var(--primary-gold); }
+.dark-mode a { color: var(--primary-gold); }
+.dark-mode .dropdown-menu { background:#202427; }
+.dark-mode .form-control, .dark-mode .form-select { background:#1c2023; border-color:#313538; color:#ddd; }
+.dark-mode .form-control:focus { background:#22272a; }
+.dark-mode .btn-outline-secondary { color:#ccc; border-color:#3a3f44; }
+.dark-mode .btn-outline-secondary:hover { background:#30363b; }
+.dark-mode .stats-card { background: linear-gradient(135deg,#444,#222); }
+.dark-mode .alert { background:#222; color:#ddd; }
+
+/* Toggle modo oscuro */
+.dark-toggle {
+    cursor:pointer; border:1px solid var(--primary-gold); background:#222; color:var(--primary-gold);
+    padding:6px 14px; border-radius:25px; font-size:.85rem; display:inline-flex; align-items:center; gap:6px;
+    transition:background .3s;
+}
+.dark-toggle:hover { background:#333; }
+
+/* Roadmap & FAQ */
+.roadmap-step { position:relative; padding-left:2.2rem; margin-bottom:1.4rem; }
+.roadmap-step:before { content:""; position:absolute; left:.6rem; top:.3rem; width:10px; height:10px; background:var(--primary-gold); border-radius:50%; box-shadow:0 0 0 4px rgba(218,165,32,.25); }
+.roadmap-step:after { content:""; position:absolute; left:1rem; top:1.15rem; width:2px; height:100%; background:linear-gradient(var(--primary-gold), transparent); }
+.roadmap-step:last-child:after { display:none; }
+
+.faq-item { border-bottom:1px solid var(--light-gray); padding:10px 0; }
+.faq-item button { background:none; border:none; width:100%; text-align:left; font-weight:600; padding:4px 0; display:flex; justify-content:space-between; }
+.faq-item button:focus { outline:none; }
+.faq-answer { display:none; font-size:.9rem; margin-top:4px; color:var(--medium-gray); }
+.faq-item.open .faq-answer { display:block; }

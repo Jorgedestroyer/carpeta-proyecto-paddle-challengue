@@ -1,0 +1,29 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Django Development Server",
+			"type": "shell",
+			"command": "& \".venv\\Scripts\\python.exe\" manage.py runserver",
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Django Development Server",
+			"type": "shell",
+			"command": "& \".venv\\Scripts\\python.exe\" manage.py runserver",
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Django Development Server",
+			"type": "shell",
+			"command": "& \".venv\\Scripts\\python.exe\" manage.py runserver",
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}

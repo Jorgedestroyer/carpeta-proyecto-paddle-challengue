@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Paddle Challenge - Inicio{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>¡Bienvenido a Paddle Challenge!</h1>
+    <p>La plataforma definitiva para jugadores de paddle.</p>
+    
+    {% if user.is_authenticated %}
+        <p>Hola, {{ user.username }}!</p>
+    {% else %}
+        <p>Inicia sesión para acceder a todas las funciones.</p>
+    {% endif %}
+</div>
+{% endblock %}

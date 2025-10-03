@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Categorías del Blog - Paddle Challenge{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="text-primary">
+                    <i class="fas fa-tags me-2"></i>
+                    Categorías del Blog
+                </h1>
+                <a href="{% url 'blog:lista_posts' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left me-1"></i>
+                    Volver al Blog
+                </a>
+            </div>
+
+            {% if categorias %}
+                <div class="row">
+                    {% for categoria in categorias %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card-wrapper h-100">
+                                <div class="card h-100 shadow-sm border-0 hover-raise">
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <i class="fas fa-folder-open fa-3x text-primary"></i>
+                                        </div>
+                                        <h5 class="card-title text-dark mb-2">{{ categoria.nombre }}</h5>
+                                        <p class="card-text text-muted small mb-3">{{ categoria.descripcion|default:"Sin descripción" }}</p>
+                                        <div class="mt-auto">
+                                            <span class="badge bg-secondary">
+                                                {{ categoria.posts.count }} post{{ categoria.posts.count|pluralize }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-transparent border-0 text-center pt-0 pb-3">
+                                        <a href="{% url 'blog:categoria' categoria.slug %}" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>
+                                            Ver Posts
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <div class="mb-4">
+                        <i class="fas fa-folder-open fa-5x text-muted"></i>
+                    </div>
+                    <h3 class="text-muted">No hay categorías disponibles</h3>
+                    <p class="text-muted">Aún no se han creado categorías para el blog.</p>
+                    {% if user.is_staff %}
+                        <a href="{% url 'admin:blog_categoria_add' %}" class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i>
+                            Crear Primera Categoría
+                        </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+/* Evitar “jitter” al hacer hover moviendo el área sensible */
+.card-wrapper {
+    position: relative;
+    height: 100%;
+}
+
+.hover-raise { transition: box-shadow .3s ease; display:flex; flex-direction:column; }
+.card-wrapper:hover .hover-raise { box-shadow:0 10px 25px -5px rgba(0,0,0,.18); }
+
+/* Mantener el espacio para que el layout no cambie al elevarla */
+.hover-raise:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.card-body { padding: 1.75rem 1.5rem 1rem; }
+
+.fa-folder-open { opacity: .85; }
+
+.badge { font-size: .8rem; letter-spacing: .5px; }
+
+@media (hover: none) { .card-wrapper:hover .hover-raise { } }
+</style>
+{% endblock %}

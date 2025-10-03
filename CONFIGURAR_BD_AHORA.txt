@@ -1,0 +1,28 @@
+# PASOS PARA CONFIGURAR LA BASE DE DATOS
+
+1. ABRIR SQL Shell (psql):
+   - Menú inicio → "SQL Shell"
+   
+2. PRESIONAR ENTER para todos estos valores:
+   Server [localhost]: [ENTER]
+   Database [postgres]: [ENTER]
+   Port [5432]: [ENTER]
+   Username [postgres]: [ENTER]
+   
+3. INTRODUCIR TU CONTRASEÑA:
+   Password for user postgres: [TU_CONTRASEÑA_AQUÍ]
+   
+4. EJECUTAR ESTOS COMANDOS:
+   CREATE DATABASE paddle_challenge_db;
+   CREATE USER paddle_user WITH PASSWORD 'paddle123';
+   GRANT ALL PRIVILEGES ON DATABASE paddle_challenge_db TO paddle_user;
+   ALTER USER paddle_user CREATEDB;
+   
+5. VERIFICAR:
+   \l
+   
+6. SALIR:
+   \q
+
+7. PROBAR CONEXIÓN DESDE NUESTRO PROYECTO:
+   python check_postgresql18.py
