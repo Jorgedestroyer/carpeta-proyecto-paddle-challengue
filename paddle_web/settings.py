@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from decouple import config
+import dj_database_url
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +28,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-v38o%7wh0mzv4lv(ba=eh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -48,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -80,25 +83,29 @@ WSGI_APPLICATION = 'paddle_web.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# Configuración para PostgreSQL 18 - Optimizada para UTF-8
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='paddle_challenge_db'),
-        'USER': config('DB_USER', default='paddle_user'),
-        'PASSWORD': config('DB_PASSWORD', default='paddle123'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
-        'OPTIONS': {
-            'options': '-c default_transaction_isolation=read\\ committed -c client_encoding=UTF8',
-            'sslmode': 'prefer',
-        },
-        'CONN_MAX_AGE': 600,
-        'CONN_HEALTH_CHECKS': True,
-        'ATOMIC_REQUESTS': False,
-        'AUTOCOMMIT': True,
+# Configuración para producción y desarrollo
+DATABASE_URL = config('DATABASE_URL', default='')
+
+if DATABASE_URL:
+    # Configuración para producción (Render/Railway)
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL)
     }
-}
+else:
+    # Configuración para PostgreSQL local
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': config('DB_NAME', default='paddle_challenge_db'),
+            'USER': config('DB_USER', default='paddle_user'),
+            'PASSWORD': config('DB_PASSWORD', default='paddle123'),
+            'HOST': config('DB_HOST', default='localhost'),
+            'PORT': config('DB_PORT', default='5432'),
+            'OPTIONS': {
+                'options': '-c client_encoding=UTF8',
+            },
+        }
+    }
 
 # Respaldo SQLite (comentado)
 # DATABASES = {
@@ -143,10 +150,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Configuración para archivos estáticos en producción
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (User uploads)
 MEDIA_URL = '/media/'
