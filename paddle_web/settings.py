@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from decouple import config
-import dj_database_url
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-v38o%7wh0mzv4lv(ba=eh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'localhost', '127.0.0.1', '.pythonanywhere.com']
 
 
 # Application definition
@@ -50,7 +49,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,6 +56,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Agregar whitenoise solo en producción
+if not DEBUG:
+    MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 ROOT_URLCONF = 'paddle_web.urls'
 
@@ -88,8 +90,25 @@ DATABASE_URL = config('DATABASE_URL', default='')
 
 if DATABASE_URL:
     # Configuración para producción (Render/Railway)
+    import dj_database_url
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL)
+    }
+elif 'PYTHONANYWHERE_DOMAIN' in os.environ:
+    # Configuración para PythonAnywhere (MySQL)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': config('PA_DB_NAME', default='yourusername$paddle_db'),
+            'USER': config('PA_DB_USER', default='yourusername'),
+            'PASSWORD': config('PA_DB_PASSWORD', default='your_db_password'),
+            'HOST': config('PA_DB_HOST', default='yourusername.mysql.pythonanywhere-services.com'),
+            'PORT': '3306',
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+                'use_unicode': True,
+            },
+        }
     }
 else:
     # Configuración para PostgreSQL local
@@ -154,10 +173,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Configuración para archivos estáticos en producción
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Configuración para producción
+if not DEBUG:
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (User uploads)
 MEDIA_URL = '/media/'
